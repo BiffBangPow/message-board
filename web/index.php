@@ -1,11 +1,17 @@
 <?php
 
+use BiffBangPow\MessageBoard\ApplicationBuilder;
+use BiffBangPow\MessageBoard\Controller;
+
 require_once "../vendor/autoload.php";
 
-$app = new Silex\Application();
+$loader = new Twig_Loader_Filesystem("../src/View/.");
+$twig = new Twig_Environment($loader, [
+    'cache' => '/tmp/twig_cache',
+    'debug' => true
+]);
 
-$app->get('/hello/{name}', function($name) use($app) {
-    return 'Hello '.$app->escape($name);
-});
-
+$controller = new Controller($twig);
+$applicationBuilder = new ApplicationBuilder($controller);
+$app = $applicationBuilder->buildApplication();
 $app->run();
