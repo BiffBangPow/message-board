@@ -1,0 +1,40 @@
+version: '2'
+
+volumes:
+  mysql:
+    driver: local
+
+services:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'FWDa67qpZFku7E2X'
+      MYSQL_USER: 'message-board'
+      MYSQL_PASSWORD: 'pfj95khzMwVWDPgv'
+      MYSQL_DATABASE: pk-inbox
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - 3306
+
+  php:
+    image: php:7.1-fpm
+    restart: always
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql
+    environment:
+      SYMFONY_ENV: dev
+
+  nginx:
+    image: nginx:stable-alpine
+    restart: always
+    volumes:
+      - ./web:/usr/share/nginx/html/
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - php
+    ports:
+      - 3987:80
