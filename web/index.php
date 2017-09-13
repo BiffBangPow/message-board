@@ -7,8 +7,7 @@ require_once "../vendor/autoload.php";
 
 $loader = new Twig_Loader_Filesystem("../src/View/.");
 $twig = new Twig_Environment($loader, [
-    'cache' => '/tmp/twig_cache',
-    'debug' => true
+    'cache' => '/tmp/twig_cache'
 ]);
 
 $controller = new Controller($twig);
