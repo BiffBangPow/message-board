@@ -19,16 +19,17 @@ class Controller
         $this->twig = $twig;
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function indexAction(Request $request)
     {
         $response = new Response();
-        try {
-            $response->setContent($this->twig->render('index.html.twig', [
-                'ip_address' => $request->getClientIp()
-            ]));
-        } catch (\Exception $ex) {
-            $response->setContent($ex);
-        }
+        $content = $this->twig->render('index.html.twig', [
+            'ip_address' => $request->getClientIp()
+        ]);
+        $response->setContent($content);
         return $response;
     }
 }
