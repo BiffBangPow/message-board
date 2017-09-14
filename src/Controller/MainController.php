@@ -23,6 +23,7 @@ class MainController
     /**
      * Controller constructor.
      * @param \Twig_Environment $twig
+     * @param EntityRepository $threadRepository
      */
     public function __construct(\Twig_Environment $twig, EntityRepository $threadRepository)
     {
