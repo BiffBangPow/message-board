@@ -8,3 +8,6 @@
 5. Visit the application running in your browser http://localhost:3987/
 6. Optionally, run the dev fixtures to load dummy data into the database
 `docker-compose exec php php bin/load-dev-fixtures.php`
+
+## To Run the Tests
+`docker-compose exec php php vendor/bin/phpunit`
