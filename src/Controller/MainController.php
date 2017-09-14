@@ -1,12 +1,12 @@
 <?php
 
 
-namespace BiffBangPow\MessageBoard;
+namespace BiffBangPow\MessageBoard\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Controller
+class MainController
 {
 
     /**

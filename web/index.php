@@ -1,16 +1,19 @@
 <?php
 
-use BiffBangPow\MessageBoard\ApplicationBuilder;
-use BiffBangPow\MessageBoard\Controller;
+use BiffBangPow\MessageBoard\Router;
+use BiffBangPow\MessageBoard\Controller\MainController;
 
 require_once "../vendor/autoload.php";
 
-$loader = new Twig_Loader_Filesystem("../src/View/.");
+$loader = new Twig_Loader_Filesystem("../src/View");
 $twig = new Twig_Environment($loader, [
     'cache' => '/tmp/twig_cache'
 ]);
 
-$controller = new Controller($twig);
-$applicationBuilder = new ApplicationBuilder($controller);
-$app = $applicationBuilder->buildApplication();
-$app->run();
+$mainController = new MainController($twig);
+
+$application = Router::buildApplication()
+    ->routeMainController($mainController)
+    ->getApplication();
+
+$application->run();
