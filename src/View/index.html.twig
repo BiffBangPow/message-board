@@ -9,6 +9,7 @@
 {% for thread in threads %}
 <div>
     <h3>{{ thread.title }}</h3>
+    <i>Posted {{ thread.postedAt.format('F j Y g:i a') }}</i>
     <p>{{ thread.excerpt }}...</p>
 </div>
 {% endfor %}
