@@ -3,13 +3,14 @@
 use BiffBangPow\MessageBoard\Model\Thread;
 use BiffBangPow\MessageBoard\Router;
 use BiffBangPow\MessageBoard\Controller\MainController;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
 //Doctrine ORM
 $entityConfiguration = Setup::createAnnotationMetadataConfiguration([__DIR__ . "/src/Model"], false);
-$entityManager = \Doctrine\ORM\EntityManager::create([
+$entityManager = EntityManager::create([
     'dbname' => 'message-board',
     'user' => 'message-board',
     'password' => 'pfj95khzMwVWDPgv',
