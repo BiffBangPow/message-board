@@ -3,6 +3,7 @@
 
 namespace BiffBangPow\MessageBoard\Controller;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,12 +16,18 @@ class MainController
     private $twig;
 
     /**
+     * @var EntityRepository
+     */
+    private $threadRepository;
+
+    /**
      * Controller constructor.
      * @param \Twig_Environment $twig
      */
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(\Twig_Environment $twig, EntityRepository $threadRepository)
     {
         $this->twig = $twig;
+        $this->threadRepository = $threadRepository;
     }
 
     /**
@@ -31,7 +38,7 @@ class MainController
     {
         $response = new Response();
         $content = $this->twig->render('index.html.twig', [
-            'ip_address' => $request->getClientIp()
+            'threads' => $this->threadRepository->findAll()
         ]);
         $response->setContent($content);
         return $response;

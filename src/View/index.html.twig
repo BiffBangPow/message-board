@@ -1,13 +1,16 @@
 <html>
 <head>
-  <title>Your IP ADDRESS IS {{ ip_address }}</title>
+  <title>Message Board</title>
 </head>
 <body>
 <h1>
-    Your IP ADDRESS IS {{ ip_address }}
+    Message Board
 </h1>
-<p>
-    Your IP ADDRESS IS {{ ip_address }}
-</p>
+{% for thread in threads %}
+<div>
+    <h3>{{ thread.title }}</h3>
+    <p>{{ thread.excerpt }}...</p>
+</div>
+{% endfor %}
 </body>
 </html>
