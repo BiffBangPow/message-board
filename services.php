@@ -11,9 +11,9 @@ require_once __DIR__ . "/vendor/autoload.php";
 //Doctrine ORM
 $entityConfiguration = Setup::createAnnotationMetadataConfiguration([__DIR__ . "/src/Model"], false);
 $entityManager = EntityManager::create([
-    'dbname' => 'message-board',
-    'user' => 'message-board',
-    'password' => 'pfj95khzMwVWDPgv',
+    'dbname' => $_ENV['MYSQL_DATABASE'],
+    'user' => $_ENV['MYSQL_USER'],
+    'password' => $_ENV['MYSQL_PASSWORD'],
     'host' => 'mysql',
     'driver' => 'pdo_mysql'
 ], $entityConfiguration);
