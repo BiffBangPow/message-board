@@ -1,6 +1,5 @@
 <?php
 
-
 namespace BiffBangPow\MessageBoard;
 
 use BiffBangPow\MessageBoard\Controller\MainController;

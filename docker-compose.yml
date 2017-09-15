@@ -16,7 +16,7 @@ services:
     volumes:
       - mysql:/var/lib/mysql
     ports:
-      - 3306
+      - 32768:3306
 
   php:
     image: php:7.1-fpm-pdo-mysql

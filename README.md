@@ -2,7 +2,7 @@
 
 ## Installation
 1. Checkout from Git: `git clone https://github.com/BiffBangPow/message-board.git`
-2. Install all third party dependancies with composer `composer install`
+2. Install all third party dependancies with composer `composer install --ignore-platform-reqs`
 3. Build Application Environment with Docker Compose `docker-compose up -d`
 4. Build the database schema `docker-compose exec php vendor/bin/doctrine orm:schema-tool:update --force`
 5. Visit the application running in your browser http://localhost:3987/
