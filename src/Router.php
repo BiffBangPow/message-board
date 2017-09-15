@@ -36,21 +36,4 @@ class Router
 
         return $this;
     }
-
-    /**
-     * @return Application
-     */
-    public function getApplication()
-    {
-        return $this->application;
-    }
-
-    /**
-     * @return Router
-     */
-    public static function buildApplication()
-    {
-        $app = new Application();
-        return new self($app);
-    }
 }

@@ -5,6 +5,7 @@ use BiffBangPow\MessageBoard\Router;
 use BiffBangPow\MessageBoard\Controller\MainController;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
+use Silex\Application;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
@@ -29,6 +30,6 @@ $twig = new Twig_Environment($templateLoader);
 $mainController = new MainController($twig, $threadRepository);
 
 //Application
-$application = Router::buildApplication()
-    ->routeMainController($mainController)
-    ->getApplication();
+$application = new Application();
+$router = new Router($application);
+$router->routeMainController($mainController);
