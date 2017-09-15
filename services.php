@@ -30,6 +30,6 @@ $twig = new Twig_Environment($templateLoader);
 $mainController = new MainController($twig, $threadRepository);
 
 //Application
-$application = new Application();
+$application = new Application(['debug' => true]);
 $router = new Router($application);
 $router->routeMainController($mainController);
