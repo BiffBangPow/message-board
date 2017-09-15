@@ -38,8 +38,9 @@ class MainController
     public function indexAction(Request $request)
     {
         $response = new Response();
+        $threads = $this->threadRepository->findAll();
         $content = $this->twig->render('index.html.twig', [
-            'threads' => $this->threadRepository->findAll()
+            'threads' => $threads
         ]);
         $response->setContent($content);
         return $response;
