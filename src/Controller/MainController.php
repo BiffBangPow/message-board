@@ -45,4 +45,12 @@ class MainController
         $response->setContent($content);
         return $response;
     }
+
+    public function threadAction(Request $request, int $id)
+    {
+      $thread = $this->threadRepository->find($id);
+      return new Response($this->twig->render('thread.html.twig', [
+          'thread' => $thread
+      ]));
+    }
 }

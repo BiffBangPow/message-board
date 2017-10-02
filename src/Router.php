@@ -33,6 +33,10 @@ class Router
             return $mainController->indexAction($request);
         });
 
+        $this->application->get('/thread/{id}', function(Request $request, int $id) use ($mainController) {
+            return $mainController->threadAction($request, $id);
+        });
+
         return $this;
     }
 }
