@@ -6,6 +6,10 @@
 <h1>
     {{ thread.title }}
 </h1>
+  <i>Posted {{ thread.postedAt.format('F j Y g:i a') }}</i>
+  <p>{{ thread.content }}</p>
+  
+  <a href="/">Back to the Board</a>
 
 </body>
 </html>
