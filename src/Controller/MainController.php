@@ -1,6 +1,5 @@
 <?php
 
-
 namespace BiffBangPow\MessageBoard\Controller;
 
 use Doctrine\ORM\EntityRepository;
@@ -40,7 +39,7 @@ class MainController
         $response = new Response();
         $threads = $this->threadRepository->findAll();
         $currentPage = $request->get('page', 1);
-        $limit = 10;
+        $limit = 1;
         $offset = ($currentPage - 1) * $limit;
         $totalItems = count($threads);
         $totalPages = ceil($totalItems / $limit);
