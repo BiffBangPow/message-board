@@ -39,8 +39,17 @@ class MainController
     {
         $response = new Response();
         $threads = $this->threadRepository->findAll();
+        $currentPage = $request->get('page', 1);
+        $limit = 10;
+        $offset = ($currentPage - 1) * $limit;
+        $totalItems = count($threads);
+        $totalPages = ceil($totalItems / $limit);
+        $itemsList = array_splice($threads, $offset, $limit);
+
         $content = $this->twig->render('index.html.twig', [
-            'threads' => $threads
+            'threads' => $itemsList,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
         ]);
         $response->setContent($content);
         return $response;

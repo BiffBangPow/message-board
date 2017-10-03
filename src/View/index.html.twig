@@ -6,13 +6,25 @@
 <h1>
     Message Board
 </h1>
+
 {% for thread in threads %}
-<div>
-    <h3>{{ thread.title }}</h3>
-    <i>Posted {{ thread.postedAt.format('F j Y g:i a') }}</i>
-    <p>{{ thread.excerpt }}...</p>
-    <a href="/thread/{{ thread.id }}"> See details </a>
-</div>
+
+  <div>
+      <h3>{{ thread.title }}</h3>
+      <i>Posted {{ thread.postedAt.format('F j Y g:i a') }}</i>
+      <p>{{ thread.excerpt }}...</p>
+      <a href="/thread/{{ thread.id }}"> See details </a>
+    </div>
 {% endfor %}
+
+  <div>
+    {{ include('pagination.html.twig',{
+      currentFilters: threads,
+      currentPage: currentPage,
+      paginationPath: "/?page=",
+      lastPage: totalPages,
+      showAlwaysFirstAndLast: false
+    }) }}
+  </div>
 </body>
 </html>
