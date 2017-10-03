@@ -46,6 +46,11 @@ class MainController
         return $response;
     }
 
+    /**
+     * @param Request $request
+     * @param int   $id
+     * @return Response
+     */
     public function threadAction(Request $request, int $id)
     {
       $thread = $this->threadRepository->find($id);
