@@ -18,10 +18,9 @@
 {% endfor %}
 
   <div>
-    {{ include('pagination.html.twig',{
+    {{ include('includes/pagination.html.twig',{
       currentFilters: threads,
       currentPage: currentPage,
-      paginationPath: "/?page=",
       lastPage: totalPages,
       showAlwaysFirstAndLast: false
     }) }}

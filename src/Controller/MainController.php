@@ -37,22 +37,35 @@ class MainController
      */
     public function indexAction(Request $request)
     {
-        $response = new Response();
-        $threads = $this->threadRepository->findAll();
+
+
+        //$allThreads = count( $this->threadRepository -> findAll());
         $currentPage = $request->get('page', 1);
-        $limit = 10;
-        $offset = ($currentPage - 1) * $limit;
-        $totalItems = count($threads);
-        $totalPages = ceil($totalItems / $limit);
-        $itemsList = array_splice($threads, $offset, $limit);
+
+        //var_dump(($currentPage - 1) * 10); die;
+
+        $totalCount = $this->threadRepository->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $threads = $this->threadRepository
+            ->createQueryBuilder('t')
+            ->setFirstResult(($currentPage-1)*10)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->execute();
+        ;
+
+        $totalPages = ceil($totalCount/ 10);
 
         $content = $this->twig->render('index.html.twig', [
-            'threads' => $itemsList,
+            'threads' => $threads,
             'currentPage' => $currentPage,
             'totalPages' => $totalPages
         ]);
-        $response->setContent($content);
-        return $response;
+
+        return new Response($content);
     }
 
     /**

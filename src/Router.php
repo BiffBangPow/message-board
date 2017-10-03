@@ -3,7 +3,6 @@
 namespace BiffBangPow\MessageBoard;
 
 use BiffBangPow\MessageBoard\Controller\MainController;
-
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
