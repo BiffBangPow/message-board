@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Silex\Application;
 use \BiffBangPow\MessageBoard\FormHandler\ThreadFormHandler;
+use \BiffBangPow\MessageBoard\FormHandler\ThreadFormHandler;
 use \BiffBangPow\MessageBoard\FormHandler\CommentFormHandler;
 
 require_once __DIR__ . "/vendor/autoload.php";
@@ -32,6 +33,7 @@ $commentRepository = $entityManager->getRepository(Comment::class);
 $templateLoader = new Twig_Loader_Filesystem(__DIR__ . "/src/View");
 $twig = new Twig_Environment($templateLoader);
 
+
 //FormHandlers
 $threadFormHandler = new ThreadFormHandler($entityManager);
 $commentFormHandler = new CommentFormHandler($entityManager, $threadRepository);
@@ -47,4 +49,4 @@ $router = new Router($application);
 $router->routeMainController($mainController);
 $router->routeCommentController($commentController);
 
-//$router ->routePostController($threadController);
+$router ->routeThreadController($threadController);

@@ -113,12 +113,4 @@ class Thread
     {
         $this->postedAt = $postedAt;
     }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
 }

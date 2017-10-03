@@ -1,6 +1,5 @@
 <?php
 
-
 namespace BiffBangPow\MessageBoard\Controller;
 
 use BiffBangPow\MessageBoard\Model\Thread;
@@ -10,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MainController
 {
+
     /**
      * @var \Twig_Environment
      */

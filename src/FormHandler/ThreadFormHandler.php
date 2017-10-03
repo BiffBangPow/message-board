@@ -20,7 +20,8 @@ class ThreadFormHandler
         $this->entityManager = $entityManager;
     }
 
-    public function handle(Request $request){
+    public function handle(Request $request)
+    {
         $thread = new Thread();
 
         $thread -> setTitle((htmlspecialchars($request->get('title'))));
