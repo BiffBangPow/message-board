@@ -3,6 +3,7 @@
 namespace BiffBangPow\MessageBoard;
 
 use BiffBangPow\MessageBoard\Controller\MainController;
+use BiffBangPow\MessageBoard\Controller\ThreadController;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -38,5 +39,21 @@ class Router
         });
 
         return $this;
+    }
+
+
+    /**
+     * @param ThreadController $threadController
+     * @return $this
+     */
+    public function routePostController(ThreadController $threadController){
+        $this->application->get('/threads/new', function(Request $request) use ($threadController) {
+            return $threadController->newThreadAction($request);
+        });
+
+        $this->application->post('/threads/new', function(Request $request) use ($threadController) {
+            return $threadController->createNewThreadAction($request);
+            //return $this -> application ->redirect('/', 302);
+        });
     }
 }

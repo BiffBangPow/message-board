@@ -1,6 +1,5 @@
 <?php
 
-
 namespace BiffBangPow\MessageBoard\Controller;
 
 use Doctrine\ORM\EntityRepository;
@@ -9,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MainController
 {
+
     /**
      * @var \Twig_Environment
      */

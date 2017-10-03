@@ -3,9 +3,11 @@
 use BiffBangPow\MessageBoard\Model\Thread;
 use BiffBangPow\MessageBoard\Router;
 use BiffBangPow\MessageBoard\Controller\MainController;
+use BiffBangPow\MessageBoard\Controller\ThreadController;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Silex\Application;
+use \BiffBangPow\MessageBoard\FormHandler\ThreadFormHandler;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
@@ -26,10 +28,15 @@ $threadRepository = $entityManager->getRepository(Thread::class);
 $templateLoader = new Twig_Loader_Filesystem(__DIR__ . "/src/View");
 $twig = new Twig_Environment($templateLoader);
 
+//FormHandlers
+$threadFormHandler = new ThreadFormHandler($entityManager);
+
 //Application Controllers
 $mainController = new MainController($twig, $threadRepository);
+$threadController = new ThreadController($twig, $threadRepository, $threadFormHandler);
 
 //Application
 $application = new Application(['debug' => true]);
 $router = new Router($application);
 $router->routeMainController($mainController);
+$router ->routePostController($threadController);

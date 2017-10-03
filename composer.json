@@ -3,7 +3,8 @@
     "require": {
         "silex/silex": "^2.2",
         "twig/twig": "^2.4",
-        "doctrine/orm": "^2.5"
+        "doctrine/orm": "^2.5",
+        "mockery/mockery": "^0.9.9"
     },
     "autoload": {
         "psr-4": {
