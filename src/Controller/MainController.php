@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MainController
 {
-
     /**
      * @var \Twig_Environment
      */
@@ -37,27 +36,23 @@ class MainController
      */
     public function indexAction(Request $request)
     {
-
-
-        //$allThreads = count( $this->threadRepository -> findAll());
+        $numberOfResultsPerPage = 10;
         $currentPage = $request->get('page', 1);
 
-        //var_dump(($currentPage - 1) * 10); die;
-
-        $totalCount = $this->threadRepository->createQueryBuilder('u')
-            ->select('count(u.id)')
+        $totalCount = $this->threadRepository->createQueryBuilder('t')
+            ->select('count(t.id)')
             ->getQuery()
             ->getSingleScalarResult();
 
         $threads = $this->threadRepository
             ->createQueryBuilder('t')
-            ->setFirstResult(($currentPage-1)*10)
-            ->setMaxResults(10)
+            ->setFirstResult(($currentPage-1)*$numberOfResultsPerPage)
+            ->setMaxResults($numberOfResultsPerPage)
             ->getQuery()
             ->execute();
         ;
 
-        $totalPages = ceil($totalCount/ 10);
+        $totalPages = ceil($totalCount/ $numberOfResultsPerPage);
 
         $content = $this->twig->render('index.html.twig', [
             'threads' => $threads,
