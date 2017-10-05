@@ -58,10 +58,6 @@ class MainController
             ->execute()
         ;
 
-  /**      foreach ($threads as $thread){
-            var_dump($thread);
-        }
-*/
         $totalPages = ceil($totalCount/ $numberOfResultsPerPage);
 
         $content = $this->twig->render('index.html.twig', [
@@ -109,6 +105,6 @@ class MainController
           'comments' => $comments,
           'currentPage'  => $currentPage,
           'totalPages' => $totalPages
-      ]));
+        ]));
     }
 }

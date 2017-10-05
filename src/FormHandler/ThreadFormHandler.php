@@ -22,8 +22,8 @@ class ThreadFormHandler
     {
         $thread = new Thread();
 
-        $thread->setTitle((htmlspecialchars($request->get('title'))));
-        $thread->setContent((htmlspecialchars($request->get('content'))));
+        $thread->setTitle(($request->get('title')));
+        $thread->setContent($request->get('content'));
 
         $this->entityManager->persist($thread);
         $this->entityManager->flush();
