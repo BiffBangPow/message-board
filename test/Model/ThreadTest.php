@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class ThreadTest extends TestCase
 {
-
     public function testGetExcerpt_ContentLessThanLength_ReturnsFullContent()
     {
         $thread = new Thread();
