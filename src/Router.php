@@ -2,8 +2,8 @@
 
 namespace BiffBangPow\MessageBoard;
 
+use BiffBangPow\MessageBoard\Controller\CommentController;
 use BiffBangPow\MessageBoard\Controller\MainController;
-use BiffBangPow\MessageBoard\Controller\ThreadController;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -41,19 +41,16 @@ class Router
         return $this;
     }
 
-
     /**
-     * @param ThreadController $threadController
+     * @param CommentController $commentController
      * @return $this
      */
-    public function routePostController(ThreadController $threadController){
-        $this->application->get('/threads/new', function(Request $request) use ($threadController) {
-            return $threadController->newThreadAction($request);
+    public function routeCommentController(CommentController $commentController)
+    {
+        $this->application->post('/threads/{id}/comments/new', function(Request $request, int $id) use ($commentController) {
+            return $commentController->newCommentAction($request, $id);
         });
 
-        $this->application->post('/threads/new', function(Request $request) use ($threadController) {
-            return $threadController->createNewThreadAction($request);
-            //return $this -> application ->redirect('/', 302);
-        });
+        return $this;
     }
 }

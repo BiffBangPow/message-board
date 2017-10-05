@@ -3,7 +3,6 @@
 
 namespace BiffBangPow\MessageBoard\FormHandler;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use BiffBangPow\MessageBoard\Model\Thread;

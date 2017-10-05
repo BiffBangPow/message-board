@@ -2,15 +2,12 @@
 
 namespace BiffBangPow\MessageBoard\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * @Entity
- * @Table(name="threads")
+ * @Table(name="comments")
  */
-class Thread
+class Comment
 {
-
     /**
      * @Id
      * @Column(type="integer")
@@ -20,22 +17,10 @@ class Thread
     private $id;
 
     /**
-     * @Column(type="string")
-     * @var string
-     */
-    private $title;
-
-    /**
      * @Column(type="text")
      * @var string
      */
     private $content;
-
-    /**
-     * @OneToMany(targetEntity="Comment", mappedBy="thread", fetch="EXTRA_LAZY")
-     * var ArrayCollection
-     */
-    private $comments;
 
     /**
      * @Column(type="datetime")
@@ -43,10 +28,15 @@ class Thread
      */
     private $postedAt;
 
+    /**
+     * @ManyToOne(targetEntity="Thread", inversedBy="comments")
+     * @JoinColumn(name="thread_id", referencedColumnName="id")
+     */
+    private $thread;
+
     public function __construct()
     {
         $this->postedAt = new \DateTime();
-        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -55,22 +45,6 @@ class Thread
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
     }
 
     /**
@@ -117,18 +91,16 @@ class Thread
     /**
      * @return mixed
      */
-    public function getComments()
+    public function getThread()
     {
-        return $this->comments;
+        return $this->thread;
     }
 
     /**
-     * @param mixed $comments
+     * @param mixed $thread
      */
-    public function setComments($comments)
+    public function setThread($thread)
     {
-        $this->comments = $comments;
+        $this->thread = $thread;
     }
-
-
 }

@@ -1,14 +1,15 @@
 <?php
 
+
 namespace BiffBangPow\MessageBoard\Controller;
 
+use BiffBangPow\MessageBoard\Model\Thread;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MainController
 {
-
     /**
      * @var \Twig_Environment
      */
@@ -18,16 +19,21 @@ class MainController
      * @var EntityRepository
      */
     private $threadRepository;
+    /**
+     * @var EntityRepository
+     */
+    private $commentRepository;
 
     /**
      * Controller constructor.
      * @param \Twig_Environment $twig
      * @param EntityRepository $threadRepository
      */
-    public function __construct(\Twig_Environment $twig, EntityRepository $threadRepository)
+    public function __construct(\Twig_Environment $twig, EntityRepository $threadRepository, EntityRepository $commentRepository)
     {
         $this->twig = $twig;
         $this->threadRepository = $threadRepository;
+        $this->commentRepository = $commentRepository;
     }
 
     /**
@@ -36,22 +42,35 @@ class MainController
      */
     public function indexAction(Request $request)
     {
-        $response = new Response();
-        $threads = $this->threadRepository->findAll();
+        $numberOfResultsPerPage = 10;
         $currentPage = $request->get('page', 1);
-        $limit = 1;
-        $offset = ($currentPage - 1) * $limit;
-        $totalItems = count($threads);
-        $totalPages = ceil($totalItems / $limit);
-        $itemsList = array_splice($threads, $offset, $limit);
+
+        $totalCount = $this->threadRepository->createQueryBuilder('t')
+            ->select('count(t.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $threads = $this->threadRepository
+            ->createQueryBuilder('t')
+            ->setFirstResult(($currentPage-1)*$numberOfResultsPerPage)
+            ->setMaxResults($numberOfResultsPerPage)
+            ->getQuery()
+            ->execute()
+        ;
+
+  /**      foreach ($threads as $thread){
+            var_dump($thread);
+        }
+*/
+        $totalPages = ceil($totalCount/ $numberOfResultsPerPage);
 
         $content = $this->twig->render('index.html.twig', [
-            'threads' => $itemsList,
+            'threads' => $threads,
             'currentPage' => $currentPage,
             'totalPages' => $totalPages
         ]);
-        $response->setContent($content);
-        return $response;
+
+        return new Response($content);
     }
 
     /**
@@ -61,9 +80,35 @@ class MainController
      */
     public function threadAction(Request $request, int $id)
     {
-      $thread = $this->threadRepository->find($id);
-      return new Response($this->twig->render('thread.html.twig', [
-          'thread' => $thread
+        $currentPage = $request->get('page', 1);
+        $numberOfResultsPerPage = 10;
+
+        $qb = $this->commentRepository->createQueryBuilder('c');
+        $qb->select('c.content, c.postedAt')
+            ->where('c.thread = ?1')
+            ->setParameter(1, $id)
+            ->setFirstResult(($currentPage-1)*$numberOfResultsPerPage)
+            ->setMaxResults($numberOfResultsPerPage)
+        ->getQuery();
+
+        $comments = $qb->getQuery()->getResult();
+
+        $totalCount = $this->commentRepository->createQueryBuilder('c')
+            ->select('count(c.id)')
+            ->where('c.thread = ?1')
+            ->setParameter(1, $id)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $totalPages = ceil($totalCount/ $numberOfResultsPerPage);
+
+        $thread = $this->threadRepository->find($id);
+
+        return new Response($this->twig->render('thread.html.twig', [
+          'thread' => $thread,
+          'comments' => $comments,
+          'currentPage'  => $currentPage,
+          'totalPages' => $totalPages
       ]));
     }
 }
