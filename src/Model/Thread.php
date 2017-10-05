@@ -104,8 +104,4 @@ class Thread
     {
         $this->postedAt = $postedAt;
     }
-
-
-
-
 }

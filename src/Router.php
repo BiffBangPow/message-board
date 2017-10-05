@@ -41,19 +41,19 @@ class Router
         return $this;
     }
 
-
     /**
      * @param ThreadController $threadController
      * @return $this
      */
-    public function routePostController(ThreadController $threadController){
+    public function routeThreadController(ThreadController $threadController){
         $this->application->get('/threads/new', function(Request $request) use ($threadController) {
             return $threadController->newThreadAction($request);
         });
 
         $this->application->post('/threads/new', function(Request $request) use ($threadController) {
             return $threadController->createNewThreadAction($request);
-            //return $this -> application ->redirect('/', 302);
         });
+
+        return $this;
     }
 }

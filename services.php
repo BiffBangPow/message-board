@@ -38,5 +38,7 @@ $threadController = new ThreadController($twig, $threadRepository, $threadFormHa
 //Application
 $application = new Application(['debug' => true]);
 $router = new Router($application);
-$router->routeMainController($mainController);
-$router ->routePostController($threadController);
+$router
+    ->routeMainController($mainController)
+    ->routeThreadController($threadController)
+;

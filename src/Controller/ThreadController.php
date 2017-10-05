@@ -22,6 +22,9 @@ class ThreadController
      */
     private $threadRepository;
 
+    /**
+     * @var ThreadFormHandler
+     */
     private $threadFormHandler;
 
     /**
@@ -52,9 +55,5 @@ class ThreadController
         $this->threadFormHandler->handle($request);
 
         return new RedirectResponse('/');
-
-
-
-
     }
 }

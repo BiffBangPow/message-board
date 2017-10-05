@@ -1,8 +1,6 @@
 <?php
 
-
 namespace BiffBangPow\MessageBoard\FormHandler;
-
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,15 +15,14 @@ class ThreadFormHandler
 
     public function __construct(EntityManagerInterface $entityManager)
     {
-
         $this->entityManager = $entityManager;
     }
 
     public function handle(Request $request){
         $thread = new Thread();
 
-        $thread -> setTitle((htmlspecialchars($request->get('title'))));
-        $thread -> setContent((htmlspecialchars($request->get('content'))));
+        $thread->setTitle((htmlspecialchars($request->get('title'))));
+        $thread->setContent((htmlspecialchars($request->get('content'))));
 
         $this->entityManager->persist($thread);
         $this->entityManager->flush();
