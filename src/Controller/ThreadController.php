@@ -22,6 +22,9 @@ class ThreadController
      */
     private $threadRepository;
 
+    /**
+     * @var ThreadFormHandler
+     */
     private $threadFormHandler;
 
     /**

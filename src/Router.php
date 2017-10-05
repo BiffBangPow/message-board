@@ -67,7 +67,8 @@ class Router
 
         $this->application->post('/threads/new', function(Request $request) use ($threadController) {
             return $threadController->createNewThreadAction($request);
-            //return $this -> application ->redirect('/', 302);
         });
+
+        return $this;
     }
 }
