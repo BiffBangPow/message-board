@@ -9,9 +9,9 @@
 
 <form action="/threads/new" method="post">
     Title:<br>
-    <input type="text" name="title" value="Title of your post"><br>
+    <input type="text" name="title" required minlength="3" maxlength="30" value="Title of your post"><br>
     Content:<br>
-    <input type="text" name="content" value="Content"><br><br>
+    <input type="text" name="content" required minlength="10" maxlength="600" value="Content"><br><br>
 
     <input type="submit" value="Submit">
 </form>
