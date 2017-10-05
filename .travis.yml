@@ -1,7 +1,15 @@
+sudo: required
+
 language: php
 php:
   - '7.1'
   - nightly
+
+services:
+  - docker
+
+before install:
+  - docker pull yzuellig/message-board
 
 install: composer install
 
