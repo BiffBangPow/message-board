@@ -27,9 +27,8 @@ before-script:
   - composer install --prefer-source --no-interaction --dev
 
 script:
-  - phpunit --configuration phpunit.xml
   - docker-compose up -d
-  - docker-compose exec php vendor/bin/doctrine orm:schema-tool:update --force
+  - docker-compose exec php php vendor/bin/phpunit
 
 matrix:
   fast_finish: true
