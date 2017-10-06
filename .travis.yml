@@ -28,7 +28,7 @@ before-script:
 
 script:
   - docker-compose up -d
-  - docker-compose exec php php vendor/bin/phpunit
+  - docker-compose exec -T php php vendor/bin/phpunit
 
 matrix:
   fast_finish: true
