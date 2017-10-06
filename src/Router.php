@@ -60,7 +60,8 @@ class Router
      * @param ThreadController $threadController
      * @return $this
      */
-    public function routeThreadController(ThreadController $threadController){
+    public function routeThreadController(ThreadController $threadController)
+    {
         $this->application->get('/threads/new', function(Request $request) use ($threadController) {
             return $threadController->newThreadAction($request);
         });

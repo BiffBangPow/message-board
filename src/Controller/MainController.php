@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MainController
 {
-
     /**
      * @var \Twig_Environment
      */

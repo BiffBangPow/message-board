@@ -54,7 +54,6 @@ class ThreadController
      */
     public function createNewThreadAction(Request $request)
     {
-
         $this->threadFormHandler->handle($request);
 
         return new RedirectResponse('/');
