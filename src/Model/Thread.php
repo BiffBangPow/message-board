@@ -115,20 +115,10 @@ class Thread
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getComments()
     {
         return $this->comments;
     }
-
-    /**
-     * @param mixed $comments
-     */
-    public function setComments($comments)
-    {
-        $this->comments = $comments;
-    }
-
-
 }

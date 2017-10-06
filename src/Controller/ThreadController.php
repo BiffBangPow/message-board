@@ -40,7 +40,8 @@ class ThreadController
      * @param Request $request
      * @return Response
      */
-    public function newThreadAction(Request $request){
+    public function newThreadAction(Request $request)
+    {
         return new Response($this->twig->render('createThreadForm.html.twig', []));
     }
 
@@ -48,13 +49,10 @@ class ThreadController
      * @param Request $request
      * @return RedirectResponse
      */
-    public function createNewThreadAction(Request $request){
+    public function createNewThreadAction(Request $request)
+    {
         $this->threadFormHandler->handle($request);
 
         return new RedirectResponse('/');
-
-
-
-
     }
 }
