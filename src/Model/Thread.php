@@ -43,6 +43,12 @@ class Thread
      */
     private $postedAt;
 
+    /**
+     * @ManyToOne(targetEntity="User", inversedBy="threads")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->postedAt = new \DateTime();
@@ -112,5 +118,37 @@ class Thread
     public function setPostedAt($postedAt)
     {
         $this->postedAt = $postedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
     }
 }
