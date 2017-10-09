@@ -1,0 +1,38 @@
+sudo: required
+
+language: php
+php:
+  - '7.1'
+  - nightly
+
+services:
+  - docker
+
+env:
+  - DOCKER_COMPOSE_VERSION=1.4.2
+
+
+
+before install:
+  - docker pull yzuellig/message-board
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+install: composer install
+
+before-script:
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+
+script:
+  - docker-compose up -d
+  - docker-compose exec -T php php vendor/bin/phpunit
+
+matrix:
+  fast_finish: true
+
+notifications:
+   on_success: never
+   on_failure: always
