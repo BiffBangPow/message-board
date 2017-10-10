@@ -7,6 +7,7 @@ use BiffBangPow\MessageBoard\Services\SessionService;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommentController
 {
@@ -54,6 +55,22 @@ class CommentController
         $this->commentFormHandler->handle($request, $id);
 
         return new RedirectResponse('/thread/'.$id);
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse|Response
+     */
+    public function reportCommentAction(Request $request, int $id)
+    {
+        if ($this->sessionService->getIsLoggedIn()) {
+            return new Response($content = $this->twig->render('report.html.twig', [
+                'commentId' => $id
+            ]));
+        } else {
+            return new RedirectResponse('/');
+        }
     }
 
 }

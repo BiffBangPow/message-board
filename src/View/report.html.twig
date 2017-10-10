@@ -1,0 +1,21 @@
+<html>
+<head>
+  <title>Comment Report- Message Board</title>
+</head>
+<body>
+<h1>
+   Report  - {{ commmentId }}
+</h1>
+  
+<a href="/">Back to the Board</a>
+
+<form action="/threads/{{thread.id}}/comments/new" method="post">
+  Content:<br>
+  <input type="text" name="content" value="Content"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+
+
+</body>
+</html>
