@@ -50,12 +50,13 @@ class UserController
      */
     public function getLoginAction(Request $request)
     {
-        return new Response($content = $this->twig->render('login.html.twig', []));
+        return new Response($this->twig->render('login.html.twig', []));
     }
 
     /**
      * @param Request $request
      * @return RedirectResponse
+     * @throws \Exception
      */
     public function loginAction(Request $request)
     {
@@ -66,10 +67,9 @@ class UserController
 
             return new RedirectResponse('/');
         } else {
-            throwException($this);
+            throw new \Exception("Login Unsuccessful");
         }
     }
-
 
     /**
      * @param Request $request
@@ -77,7 +77,7 @@ class UserController
      */
     public function getRegisterAction(Request $request)
     {
-        return new Response($content = $this->twig->render('register.html.twig', []));
+        return new Response($this->twig->render('register.html.twig', []));
     }
 
     /**

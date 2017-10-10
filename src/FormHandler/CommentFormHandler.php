@@ -52,7 +52,7 @@ class CommentFormHandler
         $user = $this->userRepository->find($this->sessionService->getUserId());
 
         $comment = new Comment();
-        $thread = $this ->threadRepository->find($id);
+        $thread = $this->threadRepository->find($id);
 
         $comment->setContent($request->get('content'));
         $comment->setThread($thread);

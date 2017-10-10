@@ -3,6 +3,7 @@
 namespace BiffBangPow\MessageBoard\FormHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\Request;
 use BiffBangPow\MessageBoard\Model\User;
 use BiffBangPow\MessageBoard\Services\PasswordEncryptionService;
@@ -18,28 +19,40 @@ class UserFormHandler
      * @var SessionService
      */
     private $sessionService;
+    /**
+     * @var PasswordEncryptionService
+     */
+    private $passwordEncryptionService;
+    /**
+     * @var EntityRepository
+     */
+    private $userRepository;
 
     /**
      * UserFormHandler constructor.
      * @param EntityManagerInterface $entityManager
+     * @param EntityRepository $userRepository
      * @param SessionService $sessionService
+     * @param PasswordEncryptionService $passwordEncryptionService
+     * @internal param EntityRepository $entityRepository
      */
-    public function __construct(EntityManagerInterface $entityManager, SessionService $sessionService)
+    public function __construct(EntityManagerInterface $entityManager, EntityRepository $userRepository, SessionService $sessionService, PasswordEncryptionService $passwordEncryptionService)
     {
         $this->entityManager = $entityManager;
         $this->sessionService = $sessionService;
+        $this->passwordEncryptionService = $passwordEncryptionService;
+        $this->userRepository = $userRepository;
     }
 
     public function handleRegistration(Request $request)
     {
-        $passwordEncryptionServices = new PasswordEncryptionService();
         $user = new User();
 
         $username = ($request->get('username'));
         $passwordInput = ($request->get('password'));
 
         $user->setUsername($username);
-        $user = $passwordEncryptionServices->encryptPassword($user, $passwordInput);
+        $user = $this->passwordEncryptionService->encryptPassword($user, $passwordInput);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -56,35 +69,24 @@ class UserFormHandler
         $username = ($request->get('username'));
         $passwordInput = ($request->get('password'));
 
-        $passwordDatabase =  $this->entityManager->createQuery('Select u.password from BiffBangPow\MessageBoard\Model\USER  u WHERE u.username = ?1')
-            ->setParameter(1, $username)
+        $userArray = $this->userRepository
+            ->createQueryBuilder('u')
+            ->where('u.username = :username')
+            ->setParameter('username', $username)
+            ->getQuery()
             ->execute()
         ;
 
-        $saltArray=  $this->entityManager->createQuery('Select u.salt from BiffBangPow\MessageBoard\Model\USER u WHERE u.username = ?1')
-            ->setParameter(1, $username)
-            ->execute()
-        ;
+        $user = $userArray[0];
 
-        $userIdArray= $this->entityManager->createQuery('Select u.id from BiffBangPow\MessageBoard\Model\User u WHERE u.username =?1')
-            ->setParameter(1, $username)
-            ->execute();
+        $passwordInputConcatenated = $passwordInput.$user->getSalt();
 
-        reset($saltArray);
-        reset($passwordDatabase);
-        reset($userIdArray);
+        $result = password_verify($passwordInputConcatenated, $user->getPassword());
 
-        $userId = current(array_slice($userIdArray, 0, 1)[0]);
-
-        $this->sessionService->setUserId($userId);
-
-        $salt = current(array_slice($saltArray, 0, 1)[0]);
-
-        $passwordInputConcatenated = $passwordInput.$salt;
-
-        $passwordOnDatabase = current(array_slice($passwordDatabase, 0, 1)[0]);
-
-        $result = password_verify($passwordInputConcatenated, $passwordOnDatabase);
+        if ($result) {
+            $userId = $user->getId();
+            $this->sessionService->setUserId($userId);
+        }
 
         return $result;
     }

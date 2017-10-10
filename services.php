@@ -15,6 +15,7 @@ use \BiffBangPow\MessageBoard\FormHandler\ThreadFormHandler;
 use \BiffBangPow\MessageBoard\FormHandler\CommentFormHandler;
 use \BiffBangPow\MessageBoard\FormHandler\UserFormHandler;
 use \BiffBangPow\MessageBoard\Services\SessionService;
+use \BiffBangPow\MessageBoard\Services\PasswordEncryptionService;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
@@ -34,18 +35,19 @@ $commentRepository = $entityManager->getRepository(Comment::class);
 $userRepository = $entityManager->getRepository(User::class);
 
 //Twig
-session_start();
 $templateLoader = new Twig_Loader_Filesystem(__DIR__ . "/src/View");
 $twig = new Twig_Environment($templateLoader);
 $twig->addGlobal('session', $_SESSION);
 
 //Services
 $sessionService = new SessionService();
+$passwordEncryptionService = new PasswordEncryptionService();
+$sessionService->init();
 
 //FormHandlers
 $threadFormHandler = new ThreadFormHandler($entityManager, $sessionService, $userRepository);
 $commentFormHandler = new CommentFormHandler($entityManager, $threadRepository, $sessionService, $userRepository);
-$userFormHandler = new UserFormHandler($entityManager, $sessionService);
+$userFormHandler = new UserFormHandler($entityManager, $userRepository, $sessionService, $passwordEncryptionService);
 
 //Application Controllers
 $mainController = new MainController($twig, $threadRepository, $commentRepository, $userRepository, $sessionService);
@@ -55,7 +57,7 @@ $userController = new UserController($twig, $userRepository, $userFormHandler, $
 
 //Application
 $application = new Application(['debug' => true]);
-$router = new Router($application);
+$router = new Router($application, $sessionService);
 $router
     ->routeMainController($mainController)
     ->routeThreadController($threadController)

@@ -4,6 +4,11 @@ namespace BiffBangPow\MessageBoard\Services;
 
 class SessionService
 {
+    public function init()
+    {
+        session_start();
+    }
+
     /**
      * @return mixed
      */
@@ -36,8 +41,4 @@ class SessionService
 
         $_SESSION['isLoggedIn'] = $isLoggedIn;
     }
-
-
-
-
 }

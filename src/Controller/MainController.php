@@ -2,7 +2,6 @@
 
 namespace BiffBangPow\MessageBoard\Controller;
 
-use BiffBangPow\MessageBoard\Model\Thread;
 use BiffBangPow\MessageBoard\Services\SessionService;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -52,36 +51,31 @@ class MainController
      */
     public function indexAction(Request $request)
     {
-        if ($this->sessionService->getIsLoggedIn()) {
-            $numberOfResultsPerPage = 10;
-            $currentPage = $request->get('page', 1);
+        $numberOfResultsPerPage = 10;
+        $currentPage = $request->get('page', 1);
 
-            $totalCount = $this->threadRepository->createQueryBuilder('t')
-                ->select('count(t.id)')
-                ->getQuery()
-                ->getSingleScalarResult();
+        $totalCount = $this->threadRepository->createQueryBuilder('t')
+            ->select('count(t.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
 
-            $threads = $this->threadRepository
-                ->createQueryBuilder('t')
-                ->setFirstResult(($currentPage-1)*$numberOfResultsPerPage)
-                ->setMaxResults($numberOfResultsPerPage)
-                ->getQuery()
-                ->execute()
+        $threads = $this->threadRepository
+            ->createQueryBuilder('t')
+            ->setFirstResult(($currentPage-1)*$numberOfResultsPerPage)
+            ->setMaxResults($numberOfResultsPerPage)
+            ->getQuery()
+            ->execute()
             ;
 
+        $totalPages = ceil($totalCount/ $numberOfResultsPerPage);
 
+        $content = $this->twig->render('index.html.twig', [
+            'threads' => $threads,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
+        ]);
 
-            $totalPages = ceil($totalCount/ $numberOfResultsPerPage);
-
-            $content = $this->twig->render('index.html.twig', [
-                'threads' => $threads,
-                'currentPage' => $currentPage,
-                'totalPages' => $totalPages
-            ]);
-            return new Response($content);
-        } else {
-            return new RedirectResponse('/user/login');
-        }
+        return new Response($content);
     }
 
     /**
@@ -91,39 +85,34 @@ class MainController
      */
     public function threadAction(Request $request, int $id)
     {
-        if ($this->sessionService->getIsLoggedIn()) {
-            $currentPage = $request->get('page', 1);
-            $numberOfResultsPerPage = 10;
+        $currentPage = $request->get('page', 1);
+        $numberOfResultsPerPage = 10;
 
-            $comments  = $this->commentRepository
-                ->createQueryBuilder('c')
-                ->where('c.thread = ?1')
-                ->setParameter(1, $id)
-                ->setFirstResult(($currentPage-1)*$numberOfResultsPerPage)
-                ->setMaxResults($numberOfResultsPerPage)
-                ->getQuery()
-                ->execute()
-            ;
+        $comments = $this->commentRepository
+            ->createQueryBuilder('c')
+            ->where('c.thread = ?1')
+            ->setParameter(1, $id)
+            ->setFirstResult(($currentPage - 1) * $numberOfResultsPerPage)
+            ->setMaxResults($numberOfResultsPerPage)
+            ->getQuery()
+            ->execute();
 
-            $totalCount = $this->commentRepository->createQueryBuilder('c')
-                ->select('count(c.id)')
-                ->where('c.thread = ?1')
-                ->setParameter(1, $id)
-                ->getQuery()
-                ->getSingleScalarResult();
+        $totalCount = $this->commentRepository->createQueryBuilder('c')
+            ->select('count(c.id)')
+            ->where('c.thread = ?1')
+            ->setParameter(1, $id)
+            ->getQuery()
+            ->getSingleScalarResult();
 
-            $totalPages = ceil($totalCount/ $numberOfResultsPerPage);
+        $totalPages = ceil($totalCount / $numberOfResultsPerPage);
 
-            $thread = $this->threadRepository->find($id);
+        $thread = $this->threadRepository->find($id);
 
-            return new Response($this->twig->render('thread.html.twig', [
-                'thread' => $thread,
-                'comments' => $comments,
-                'currentPage'  => $currentPage,
-                'totalPages' => $totalPages
-            ]));
-        } else {
-            return new RedirectResponse('/user/login');
-        }
+        return new Response($this->twig->render('thread.html.twig', [
+            'thread' => $thread,
+            'comments' => $comments,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
+        ]));
     }
 }
