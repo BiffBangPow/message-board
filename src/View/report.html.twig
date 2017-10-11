@@ -4,18 +4,17 @@
 </head>
 <body>
 <h1>
-   Report  - {{ commmentId }}
+   Report  - Comment #{{ commentId }}
 </h1>
   
 <a href="/">Back to the Board</a>
-
-<form action="/threads/{{thread.id}}/comments/new" method="post">
-  Content:<br>
-  <input type="text" name="content" value="Content"><br><br>
-  <input type="submit" value="Submit">
-</form>
-
-
-
+<br>
+<div>
+    <form action="/comments/{{commentId}}/report" method="post">
+        <br>Complaint:<br>
+        <input type="text" name="complaint" value="Your Complaint"><br><br>
+        <input type="submit" value="Create">
+    </form>
+</div>
 </body>
 </html>

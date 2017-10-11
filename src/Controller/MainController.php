@@ -27,7 +27,7 @@ class MainController
     private $commentRepository;
 
     /**
-     * @var SessionServicex
+     * @var SessionService
      */
     private $sessionService;
 

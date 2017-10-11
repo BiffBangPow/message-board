@@ -19,11 +19,14 @@
 
 <div>
     {% for comment in comments %}
-
         <div>
             <i>Posted {{ comment.postedAt.format('F j Y g:i a') }} by {{  comment.getUser.username }}</i>
             <p>{{ comment.content }}</p>
-            <a href="/comments/{{ comment.id }}/report">Report </a>
+            {%if comment.getReports() is not empty %}
+                <b>Reported</b>
+            {% else %}
+                <a href="/comments/{{ comment.id }}/report">Report </a>
+            {% endif %}
         </div>
         <br>
 
