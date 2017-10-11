@@ -1,2 +1,4 @@
 /vendor/
 **.DS_Store
+/web/bower_components/
+
