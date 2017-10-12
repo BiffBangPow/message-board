@@ -1,19 +1,17 @@
-<html>
-<head>
-  <title>Message Board - Create Post</title>
-</head>
-<body>
-<h1>
-    Create Post
-</h1>
+{% extends "_base.html.twig" %}
 
-<form action="/threads/new" method="post">
-    Title:<br>
-    <input type="text" name="title" required minlength="3" maxlength="30" value="Title of your post"><br>
-    Content:<br>
-    <input type="text" name="content" required minlength="10" maxlength="600" value="Content"><br><br>
+{% block title %}New Thread{% endblock %}
 
-    <input type="submit" value="Submit">
-</form>
-</body>
-</html>
+{% block content %}
+    <h1>Create a new Thread</h1>
+    <form action="/threads/new" method="post">
+        Title:<br>
+        <input type="text" name="title" required minlength="3" maxlength="30" value="Title of your post"><br>
+        Content:<br>
+        <input type="text" name="content" required minlength="10" maxlength="600" value="Content"><br><br>
+
+        <input type="submit" value="Submit">
+
+
+    </form>
+{% endblock %}

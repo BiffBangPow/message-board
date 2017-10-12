@@ -1,11 +1,8 @@
-<html>
-<head>
-  <title>Message Board</title>
-</head>
-<body>
-<h1>
-    Message Board
-</h1>
+{% extends "_base.html.twig" %}
+
+{% block title %}Index{% endblock %}
+{% block content %}
+<h1>{{ block('title') }}</h1>
 
 <a href="/threads/new"> Create a new Post </a>
 
@@ -28,5 +25,5 @@
       showAlwaysFirstAndLast: false
     }) }}
   </div>
-</body>
-</html>
+
+{% endblock %}
