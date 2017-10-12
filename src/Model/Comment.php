@@ -43,7 +43,7 @@ class Comment
     private $user;
 
     /**
-     * @OneToMany(targetEntity="Report", mappedBy="user", fetch="EXTRA_LAZY")
+     * @OneToMany(targetEntity="Report", mappedBy="comment", fetch="EXTRA_LAZY")
      * var ArrayCollection
      */
     private $reports;

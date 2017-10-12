@@ -10,12 +10,16 @@ require_once __DIR__ . "/../services.php";
 $connection = $entityManager->getConnection();
 $schemaManager = $connection->getSchemaManager();
 $tables = $schemaManager->listTables();
+$removeConstraintQuery = 'SET FOREIGN_KEY_CHECKS=0';
+$addConstraintQuery = 'SET FOREIGN_KEY_CHECKS=1';
 $query = '';
 foreach($tables as $table) {
     $name = $table->getName();
     $query .= 'TRUNCATE ' . $name . ';';
 }
+$connection->executeQuery($removeConstraintQuery, array(), array());
 $connection->executeQuery($query, array(), array());
+$connection->executeQuery($addConstraintQuery, array(), array());
 
 // Add some dummy threads
 $threadContent = <<<EOT
