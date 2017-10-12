@@ -36,7 +36,6 @@ class CommentFormHandler
      */
     public function __construct(EntityManagerInterface $entityManager, EntityRepository $threadRepository, SessionService $sessionService, EntityRepository $userRepository)
     {
-
         $this->entityManager = $entityManager;
         $this->threadRepository = $threadRepository;
         $this->sessionService = $sessionService;

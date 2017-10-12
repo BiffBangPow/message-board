@@ -14,11 +14,11 @@ class SessionService
      */
     public function getUserId()
     {
-        return $_SESSION['isLoggedIn'];
+        return $_SESSION['userId'];
     }
 
     /**
-     * @param mixed $userId
+     * @param int $userId
      */
     public function setUserId($userId)
     {
@@ -30,7 +30,7 @@ class SessionService
      */
     public function getIsLoggedIn()
     {
-        return $_SESSION['userId'];
+        return $_SESSION['isLoggedIn'];
     }
 
     /**

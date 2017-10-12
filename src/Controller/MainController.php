@@ -65,7 +65,7 @@ class MainController
             ->setMaxResults($numberOfResultsPerPage)
             ->getQuery()
             ->execute()
-            ;
+        ;
 
         $totalPages = ceil($totalCount/ $numberOfResultsPerPage);
 
