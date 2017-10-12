@@ -4,9 +4,9 @@
 </head>
 <body>
 <h1>
-    {{ thread.title }}
+    {{ thread.title }} - {{ session.userId }}
 </h1>
-  <i>Posted {{ thread.postedAt.format('F j Y g:i a') }}</i>
+  <i>Posted {{ thread.postedAt.format('F j Y g:i a') }} by {{  thread.getUser.username }}</i>
   <p>{{ thread.content }}</p>
   
   <a href="/">Back to the Board</a>
@@ -19,11 +19,17 @@
 
 <div>
     {% for comment in comments %}
-
         <div>
-            <i>Posted {{ comment.postedAt.format('F j Y g:i a') }}</i>
+            <i>Posted {{ comment.postedAt.format('F j Y g:i a') }} by {{  comment.getUser.username }}</i>
             <p>{{ comment.content }}</p>
+            {%if comment.getReports() is not empty %}
+                <b>Reported</b>
+            {% else %}
+                <a href="/comments/{{ comment.id }}/report">Report </a>
+            {% endif %}
         </div>
+        <br>
+
     {% endfor %}
 
     <div>

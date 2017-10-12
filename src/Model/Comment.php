@@ -2,6 +2,8 @@
 
 namespace BiffBangPow\MessageBoard\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity
  * @Table(name="comments")
@@ -34,9 +36,22 @@ class Comment
      */
     private $thread;
 
+    /**
+     * @ManyToOne(targetEntity="User", inversedBy="comments")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
+     * @OneToMany(targetEntity="Report", mappedBy="comment", fetch="EXTRA_LAZY")
+     * var ArrayCollection
+     */
+    private $reports;
+
     public function __construct()
     {
         $this->postedAt = new \DateTime();
+        $this->reports = new ArrayCollection();
     }
 
     /**
@@ -102,5 +117,52 @@ class Comment
     public function setThread($thread)
     {
         $this->thread = $thread;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReports()
+    {
+        return $this->reports;
+    }
+
+    /**
+     * @param mixed $reports
+     */
+    public function setReports($reports)
+    {
+        $this->reports = $reports;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasReports()
+    {
+        if (($this->reports->isEmpty())) {
+            return true;
+        } else {
+            return false;
+        }
+
+        var_dump($this->reports);
+        die();
     }
 }

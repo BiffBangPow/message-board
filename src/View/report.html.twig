@@ -1,0 +1,20 @@
+<html>
+<head>
+  <title>Comment Report- Message Board</title>
+</head>
+<body>
+<h1>
+   Report  - Comment #{{ commentId }}
+</h1>
+  
+<a href="/">Back to the Board</a>
+<br>
+<div>
+    <form action="/comments/{{commentId}}/report" method="post">
+        <br>Complaint:<br>
+        <input type="text" name="complaint" value="Your Complaint"><br><br>
+        <input type="submit" value="Create">
+    </form>
+</div>
+</body>
+</html>
