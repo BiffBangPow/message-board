@@ -9,9 +9,9 @@
   <i>Posted {{ thread.postedAt.format('F j Y g:i a') }} by {{  thread.getUser.username }}</i>
   <p>{{ thread.content }}</p>
   
-  <a href="/">Back to the Board</a>
+  <a href="{{ indexUrl() }}">Back to the Board</a>
 
-<form action="/threads/{{thread.id}}/comments/new" method="post">
+<form action="{{ newCommentURL(thread.id) }}" method="post">
   Content:<br>
   <input type="text" name="content" value="Content"><br><br>
   <input type="submit" value="Submit">

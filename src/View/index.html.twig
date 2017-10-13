@@ -16,7 +16,7 @@
       <i>Posted {{ thread.postedAt.format('F j Y g:i a') }} by {{  thread.getUser.username }} </i>
       <p>{{ thread.excerpt }}...</p>
       <p>{{ thread.getComments.count() }} Comments</p>
-      <a href="/thread/{{ thread.id }}"> See details </a>
+      <a href="{{ threadUrl(thread.id) }}"> See details </a>
     </div>
 {% endfor %}
 

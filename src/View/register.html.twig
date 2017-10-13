@@ -7,7 +7,7 @@
     Register
 </h1>
 
-<form action="/user/register" method="post">
+<form action="{{ registerURL() }}" method="post">
   Content:<br>
    <input type="text" name="username" value="Username">
    <br/>
@@ -16,7 +16,7 @@
    <input type="submit" value="Submit">
 </form>
 
-<p>Already have an account? Login <a href="/user/login">here</a></p>
+<p>Already have an account? Login <a href="{{ loginURL() }}">here</a></p>
 
 </body>
 </html>
