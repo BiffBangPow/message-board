@@ -18,9 +18,6 @@ foreach($tables as $table) {
 }
 $connection->executeQuery($query, array(), array());
 
-// Add some dummy data
-$passwordEncryptionService = new PasswordEncryptionService();
-
 $threadContent = <<<EOT
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 Ut posuere sapien ut tellus cursus, ut auctor urna malesuada. 
