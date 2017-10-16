@@ -16,6 +16,7 @@ use \BiffBangPow\MessageBoard\FormHandler\CommentFormHandler;
 use \BiffBangPow\MessageBoard\FormHandler\UserFormHandler;
 use \BiffBangPow\MessageBoard\Services\SessionService;
 use \BiffBangPow\MessageBoard\Services\PasswordEncryptionService;
+use \BiffBangPow\MessageBoard\Extensions\RoutingExtension;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
@@ -37,6 +38,7 @@ $userRepository = $entityManager->getRepository(User::class);
 //Twig
 $templateLoader = new Twig_Loader_Filesystem(__DIR__ . "/src/View");
 $twig = new Twig_Environment($templateLoader);
+$twig->addExtension(new RoutingExtension());
 $twig->addGlobal('session', $_SESSION);
 
 //Services

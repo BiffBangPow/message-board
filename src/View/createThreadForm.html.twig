@@ -7,7 +7,7 @@
     Create Post
 </h1>
 
-<form action="/threads/new" method="post">
+<form action="{{ newThreadURL() }}" method="post">
     Title:<br>
     <input type="text" name="title" required minlength="3" maxlength="30" value="Title of your post"><br>
     Content:<br>

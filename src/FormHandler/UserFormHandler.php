@@ -79,6 +79,9 @@ class UserFormHandler
 
         $user = $userArray[0];
 
+        var_dump($userArray);
+        die();
+
         $passwordInputConcatenated = $passwordInput.$user->getSalt();
 
         $result = password_verify($passwordInputConcatenated, $user->getPassword());
