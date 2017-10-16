@@ -34,6 +34,12 @@ class Comment
      */
     private $thread;
 
+    /**
+     * @ManyToOne(targetEntity="User", inversedBy="comments")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->postedAt = new \DateTime();
@@ -102,5 +108,21 @@ class Comment
     public function setThread($thread)
     {
         $this->thread = $thread;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
     }
 }

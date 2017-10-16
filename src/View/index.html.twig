@@ -13,7 +13,7 @@
 
   <div>
       <h3>{{ thread.title }}</h3>
-      <i>Posted {{ thread.postedAt.format('F j Y g:i a') }}</i>
+      <i>Posted {{ thread.postedAt.format('F j Y g:i a') }} by {{  thread.getUser.username }} </i>
       <p>{{ thread.excerpt }}...</p>
       <p>{{ thread.getComments.count() }} Comments</p>
       <a href="/thread/{{ thread.id }}"> See details </a>

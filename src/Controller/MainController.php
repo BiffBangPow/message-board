@@ -2,8 +2,9 @@
 
 namespace BiffBangPow\MessageBoard\Controller;
 
-use BiffBangPow\MessageBoard\Model\Thread;
+use BiffBangPow\MessageBoard\Services\SessionService;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,26 +19,35 @@ class MainController
      * @var EntityRepository
      */
     private $threadRepository;
+
     /**
      * @var EntityRepository
      */
     private $commentRepository;
 
     /**
-     * Controller constructor.
+     * @var SessionServicex
+     */
+    private $sessionService;
+
+    /**
+     * Controller constructor
      * @param \Twig_Environment $twig
      * @param EntityRepository $threadRepository
+     * @param EntityRepository $commentRepository
+     * @param SessionService $sessionService
      */
-    public function __construct(\Twig_Environment $twig, EntityRepository $threadRepository, EntityRepository $commentRepository)
+    public function __construct(\Twig_Environment $twig, $threadRepository, $commentRepository, $userRepository ,$sessionService)
     {
         $this->twig = $twig;
         $this->threadRepository = $threadRepository;
         $this->commentRepository = $commentRepository;
+        $this->sessionService = $sessionService;
     }
 
     /**
      * @param Request $request
-     * @return Response
+     * @return mixed
      */
     public function indexAction(Request $request)
     {
@@ -78,15 +88,14 @@ class MainController
         $currentPage = $request->get('page', 1);
         $numberOfResultsPerPage = 10;
 
-        $qb = $this->commentRepository->createQueryBuilder('c');
-        $qb->select('c.content, c.postedAt')
+        $comments = $this->commentRepository
+            ->createQueryBuilder('c')
             ->where('c.thread = ?1')
             ->setParameter(1, $id)
-            ->setFirstResult(($currentPage-1)*$numberOfResultsPerPage)
+            ->setFirstResult(($currentPage - 1) * $numberOfResultsPerPage)
             ->setMaxResults($numberOfResultsPerPage)
-        ->getQuery();
-
-        $comments = $qb->getQuery()->getResult();
+            ->getQuery()
+            ->execute();
 
         $totalCount = $this->commentRepository->createQueryBuilder('c')
             ->select('count(c.id)')
@@ -95,15 +104,15 @@ class MainController
             ->getQuery()
             ->getSingleScalarResult();
 
-        $totalPages = ceil($totalCount/ $numberOfResultsPerPage);
+        $totalPages = ceil($totalCount / $numberOfResultsPerPage);
 
         $thread = $this->threadRepository->find($id);
 
         return new Response($this->twig->render('thread.html.twig', [
-          'thread' => $thread,
-          'comments' => $comments,
-          'currentPage'  => $currentPage,
-          'totalPages' => $totalPages
+            'thread' => $thread,
+            'comments' => $comments,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
         ]));
     }
 }
