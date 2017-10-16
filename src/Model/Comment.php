@@ -2,6 +2,8 @@
 
 namespace BiffBangPow\MessageBoard\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity
  * @Table(name="comments")
@@ -40,9 +42,16 @@ class Comment
      */
     private $user;
 
+    /**
+     * @OneToMany(targetEntity="Report", mappedBy="user", fetch="EXTRA_LAZY")
+     * var ArrayCollection
+     */
+    private $reports;
+
     public function __construct()
     {
         $this->postedAt = new \DateTime();
+        $this->reports = new ArrayCollection();
     }
 
     /**
@@ -124,5 +133,36 @@ class Comment
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReports()
+    {
+        return $this->reports;
+    }
+
+    /**
+     * @param mixed $reports
+     */
+    public function setReports($reports)
+    {
+        $this->reports = $reports;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasReports()
+    {
+        if (($this->reports->isEmpty())) {
+            return true;
+        } else {
+            return false;
+        }
+
+        var_dump($this->reports);
+        die();
     }
 }

@@ -16,6 +16,7 @@ use \BiffBangPow\MessageBoard\FormHandler\CommentFormHandler;
 use \BiffBangPow\MessageBoard\FormHandler\UserFormHandler;
 use \BiffBangPow\MessageBoard\Services\SessionService;
 use \BiffBangPow\MessageBoard\Services\PasswordEncryptionService;
+use \BiffBangPow\MessageBoard\Model\Report;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
@@ -33,6 +34,7 @@ $entityManager = EntityManager::create([
 $threadRepository = $entityManager->getRepository(Thread::class);
 $commentRepository = $entityManager->getRepository(Comment::class);
 $userRepository = $entityManager->getRepository(User::class);
+$reportRepository = $entityManager->getRepository(Report::class);
 
 //Twig
 $templateLoader = new Twig_Loader_Filesystem(__DIR__ . "/src/View");
@@ -46,13 +48,13 @@ $sessionService->init();
 
 //FormHandlers
 $threadFormHandler = new ThreadFormHandler($entityManager, $sessionService, $userRepository);
-$commentFormHandler = new CommentFormHandler($entityManager, $threadRepository, $sessionService, $userRepository);
+$commentFormHandler = new CommentFormHandler($entityManager, $threadRepository, $sessionService, $userRepository, $commentRepository);
 $userFormHandler = new UserFormHandler($entityManager, $userRepository, $sessionService, $passwordEncryptionService);
 
 //Application Controllers
 $mainController = new MainController($twig, $threadRepository, $commentRepository, $userRepository, $sessionService);
 $threadController = new ThreadController($twig, $threadRepository, $threadFormHandler, $sessionService);
-$commentController = new CommentController($twig, $commentRepository, $commentFormHandler, $sessionService);
+$commentController = new CommentController($twig, $commentRepository,$reportRepository ,$commentFormHandler, $sessionService);
 $userController = new UserController($twig, $userRepository, $userFormHandler, $sessionService);
 
 //Application

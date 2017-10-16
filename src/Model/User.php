@@ -48,10 +48,17 @@ class User
      */
     private $comments;
 
+    /**
+     * @OneToMany(targetEntity="Report", mappedBy="user", fetch="EXTRA_LAZY")
+     * var ArrayCollection
+     */
+    private $reports;
+
     public function __construct()
     {
         $this->threads = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->reports = new ArrayCollection();
     }
 
     /**
@@ -140,5 +147,21 @@ class User
     public function setComments($comments)
     {
         $this->comments = $comments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReports()
+    {
+        return $this->reports;
+    }
+
+    /**
+     * @param mixed $reports
+     */
+    public function setReports($reports)
+    {
+        $this->reports = $reports;
     }
 }

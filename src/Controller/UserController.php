@@ -81,9 +81,9 @@ class UserController
     }
 
     /**
-     * @param Request $request
-     * @return RedirectResponse
-     */
+ * @param Request $request
+ * @return RedirectResponse
+ */
     public function registerAction(Request $request)
     {
         $this->userFormHandler->handleRegistration($request);

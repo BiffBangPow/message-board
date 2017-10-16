@@ -64,6 +64,13 @@ class Router
             return $commentController->newCommentAction($request, $id);
         })->before($this->checkSessionMissing());
 
+        $this->application->get('comments/{id}/report', function (Request $request, int $id) use ($commentController) {
+            return $commentController->reportCommentAction($request, $id);
+        });
+
+        $this->application->post('comments/{id}/report', function (Request $request, int $id) use ($commentController) {
+            return $commentController->createCommentReportAction($request, $id);
+        });
         return $this;
     }
 
