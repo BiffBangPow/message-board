@@ -1,11 +1,10 @@
-<html>
-<head>
-  <title>{{ thread.title }} - Message Board</title>
-</head>
-<body>
-<h1>
-    {{ thread.title }} - {{ session.userId }}
-</h1>
+{% extends "_base.html.twig" %}
+
+{% block title %}{{ thread.title }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ block('title') }}</h1>
   <i>Posted {{ thread.postedAt.format('F j Y g:i a') }} by {{  thread.getUser.username }}</i>
   <p>{{ thread.content }}</p>
   
@@ -35,6 +34,5 @@
         }) }}
     </div>
 </div>
+{% endblock %}
 
-</body>
-</html>

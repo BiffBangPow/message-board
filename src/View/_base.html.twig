@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+        <link rel="stylesheet" href="style.css" />
+        <title>{% block title %}{% endblock %} - Message Board</title>
+    {% endblock %}
+</head>
+<body>
+<div id="content">{% block content %}{% endblock %}</div>
+<div id="footer">
+    {% block footer %}
+        &copy; Copyright 2017 by <a href="https://github.com/yzuellig">Yannick Züllig </a> @ Biff Bang Pow.
+    {% endblock %}
+</div>
+</body>
+</html>

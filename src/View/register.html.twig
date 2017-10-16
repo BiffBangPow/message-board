@@ -1,16 +1,15 @@
-<html>
-<head>
-  <title>Register - Message Board</title>
-</head>
-<body>
-<h1>
-    Register
-</h1>
+{% extends "_base.html.twig" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<h1>{{ block('title') }}</h1>
 
 <form action="/user/register" method="post">
-  Content:<br>
-   <input type="text" name="username" value="Username">
-   <br/>
+  Username:<br>
+   <input type="text" name="username" value="Username"><br/>
+   Password<br/>
    <input type="password" name="password" value="">
    <br/>
    <input type="submit" value="Submit">
@@ -18,5 +17,4 @@
 
 <p>Already have an account? Login <a href="/user/login">here</a></p>
 
-</body>
-</html>
+{% endblock %}
