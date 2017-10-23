@@ -2,28 +2,29 @@
 
 {% block title %}Index{% endblock %}
 {% block content %}
-<h1>{{ block('title') }}</h1>
+    <h1>{{ block('title') }}</h1>
 
-<a href="/threads/new"> Create a new Post </a>
+    <a href="/threads/new">
+    <button type="button" class="btn btn-primary btn-lg">Create a new Post</button></a>
 
-{% for thread in threads %}
+    {% for thread in threads %}
 
-  <div>
-      <h3>{{ thread.title }}</h3>
-      <i>Posted {{ thread.postedAt.format('F j Y g:i a') }} by {{  thread.getUser.username }} </i>
-      <p>{{ thread.excerpt }}...</p>
-      <p>{{ thread.getComments.count() }} Comments</p>
-      <a href="/thread/{{ thread.id }}"> See details </a>
-    </div>
-{% endfor %}
+        <div class="divThread">
+            <h3>{{ thread.title }}</h3>
+            <i>Posted by {{ thread.getUser.username }}, {{ thread.postedAt.format('g:i a, j.m.Y') }}</i>
+            <hr class="hrPara">
+            <p>{{ thread.excerpt }}...</p>
+            <a href="/thread/{{ thread.id }}">
+                <button type="button" class="btn btn-primary">{{ thread.getComments.count() }} Comments</button>
+            </a>
+        </div>
+    {% endfor %}
 
-  <div>
     {{ include('includes/pagination.html.twig',{
-      currentFilters: threads,
-      currentPage: currentPage,
-      lastPage: totalPages,
-      showAlwaysFirstAndLast: false
+        currentFilters: threads,
+        currentPage: currentPage,
+        lastPage: totalPages,
+        showAlwaysFirstAndLast: false
     }) }}
-  </div>
 
 {% endblock %}

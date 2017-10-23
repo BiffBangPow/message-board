@@ -1,20 +1,18 @@
-<html>
-<head>
-  <title>Comment Report- Message Board</title>
-</head>
-<body>
-<h1>
-   Report  - Comment #{{ commentId }}
-</h1>
-  
-<a href="/">Back to the Board</a>
-<br>
-<div>
-    <form action="/comments/{{commentId}}/report" method="post">
-        <br>Complaint:<br>
-        <input type="text" name="complaint" value="Your Complaint"><br><br>
-        <input type="submit" value="Create">
-    </form>
-</div>
-</body>
-</html>
+{% extends "_base.html.twig" %}
+
+{% block title %}Report  - Comment #{{ commentId }}{% endblock %}
+
+{% block content %}
+
+    <a href="/">Back to the Board</a>
+
+    <br>
+    <div class="divThread">
+        <form action="/comments/{{commentId}}/report" method="post">
+            <h1>Complaint:</h1>
+            <input type="text"  class="form-control" name="complaint" placeholder="Your complaint">
+            <br>
+            <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}

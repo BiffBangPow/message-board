@@ -1,0 +1,80 @@
+body {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    background-color: #ebebeb;
+    width:60%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+h1 {
+    font-weight: bold;
+    color: #337ab7;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 3em;
+}
+
+h2 {
+    font-weight: bold;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 2.5em;
+}
+
+h3 {
+    font-weight: bold;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 2em;
+}
+
+i {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1.1em;
+}
+
+.hrPara {
+    overflow: visible; /* For IE */
+    padding: 0;
+    border: none;
+    border-top: medium double #333;
+    color: #333;
+    text-align: center;
+}
+
+.hrPara:after {
+    content: "§";
+    display: inline-block;
+    position: relative;
+    top: -0.9em;
+    font-size: 1.25em;
+    padding: 0 0.25em;
+    background: white;
+}
+
+hr {
+    border-top: medium double #333;
+}
+
+p {
+    color: #333333;
+    font-size: 1em;
+}
+
+div {
+    background-color: #ebebeb;
+    border-radius: 15px;
+    width: 51em;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.divThread {
+    background-color: white;
+    border-radius: 10px;
+    margin: 10px 0 10px 0;
+    padding: 15px;
+    box-shadow: 0 3px 10px darkgrey;
+}
+
+textarea {
+    resize: none;
+}

@@ -4,15 +4,20 @@
 
 {% block content %}
 
-<h1>{{ block('title') }}</h1>
-
-<form action="/user/login" method="post">
-  Username:<br>
-  <input type="text" name="username" value="Username"><br>
-  Password<br>
-  <input type="password" name="password" value=""><br>
-  <input type="submit" value="Submit">
-</form>
-<p>Don't have an account yet? Register <a href="/user/register">here</a></p>
+    <h1>{{ block('title') }}</h1>
+    <div class="divThread">
+        <form action="/user/login" method="post">
+            <p>Username</p>
+            <input type="text" class="form-control" name="username" required minlength="3" maxlength="50"
+                   placeholder="Enter username">
+            <br>
+            <p>Password</p>
+            <input type="password" class="form-control" name="password" required minlength="3" maxlength="50"
+                   placeholder="Enter password">
+            <br>
+            <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <p>Don't have an account yet? Register <a href="/user/register">here</a></p>
 
 {% endblock %}

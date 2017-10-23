@@ -3,42 +3,40 @@
 {% block title %}{{ thread.title }}{% endblock %}
 
 {% block content %}
-
-<h1>{{ block('title') }}</h1>
-  <i>Posted {{ thread.postedAt.format('F j Y g:i a') }} by {{  thread.getUser.username }}</i>
-  <p>{{ thread.content }}</p>
-  
-  <a href="/">Back to the Board</a>
-
-<form action="/threads/{{thread.id}}/comments/new" method="post">
-  Content:<br>
-  <input type="text" name="content" value="Content"><br><br>
-  <input type="submit" value="Submit">
-</form>
-
-<div>
+    <a href="/">Back to the Board</a>
+    <h1>{{ block('title') }}</h1>
+    <div class="divThread">
+        <i>Posted by {{ thread.getUser.username }}, {{ thread.postedAt.format('g:i a, j.m.Y') }}</i>
+        <hr>
+        <p>{{ thread.content }}</p>
+        <hr class="hrPara">
+        <form action="/threads/{{ thread.id }}/comments/new" method="post">
+            <input type="text" class="form-control" name="content" required minlength="3" maxlength="50"
+                   placeholder="Your comment">
+            <br>
+            <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <div class="divThread">
     {% for comment in comments %}
-        <div>
-            <i>Posted {{ comment.postedAt.format('F j Y g:i a') }} by {{  comment.getUser.username }}</i>
-            <p>{{ comment.content }}</p>
-            {%if comment.getReports() is not empty %}
-                <b>Reported</b>
-            {% else %}
-                <a href="/comments/{{ comment.id }}/report">Report </a>
-            {% endif %}
-        </div>
-        <br>
+        <i>Posted by {{ thread.getUser.username }}, {{ thread.postedAt.format('g:i a, j.m.Y') }}</i>
+        <p>{{ comment.content }}</p>
+        {% if comment.getReports() is not empty %}
+            <button type="button" class="btn btn-info btn-xs">Reported</button>
+        {% else %}
+            <a href="/comments/{{ comment.id }}/report"><button type="button" class="btn btn-primary btn-xs">Report</button></a>
+        {% endif %}
+        <hr>
+
 
     {% endfor %}
 
-    <div>
-        {{ include('includes/pagination.html.twig',{
-            currentFilters: comments,
-            currentPage: currentPage,
-            lastPage: totalPages,
-            showAlwaysFirstAndLast: false
-        }) }}
+    {{ include('includes/pagination.html.twig',{
+        currentFilters: comments,
+        currentPage: currentPage,
+        lastPage: totalPages,
+        showAlwaysFirstAndLast: false
+    }) }}
     </div>
-</div>
 {% endblock %}
 

@@ -3,15 +3,20 @@
 {% block title %}New Thread{% endblock %}
 
 {% block content %}
-    <h1>Create a new Thread</h1>
-    <form action="/threads/new" method="post">
-        Title:<br>
-        <input type="text" name="title" required minlength="3" maxlength="30" value="Title of your post"><br>
-        Content:<br>
-        <input type="text" name="content" required minlength="10" maxlength="600" value="Content"><br><br>
 
-        <input type="submit" value="Submit">
+    <a href="/">Back to the Board</a>
 
 
-    </form>
+        <h1>Create a new Thread</h1>
+    <div class="divThread">
+        <form action="/threads/new" method="post">
+            <input type="text" class="form-control" name="title" required minlength="3" maxlength="30" placeholder="Title">
+            <br>
+            <textarea class="form-control" name="content" required minlength="10" maxlength="600"
+                      placeholder="Write something!"></textarea>
+            <br>
+            <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+
+        </form>
+    </div>
 {% endblock %}
