@@ -46,6 +46,7 @@ class MainController
     }
 
     /**
+     * Todo: Move this to ThreadController as listAction?
      * @param Request $request
      * @return mixed
      */
@@ -79,6 +80,7 @@ class MainController
     }
 
     /**
+     * Todo: Move this to ThreadController as viewAction?
      * @param Request $request
      * @param int   $id
      * @return Response

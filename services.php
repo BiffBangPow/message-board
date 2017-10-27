@@ -1,5 +1,6 @@
 <?php
 
+use BiffBangPow\MessageBoard\Controller\JsonController;
 use BiffBangPow\MessageBoard\Model\Thread;
 use BiffBangPow\MessageBoard\Model\Comment;
 use BiffBangPow\MessageBoard\Model\User;
@@ -17,6 +18,9 @@ use \BiffBangPow\MessageBoard\FormHandler\UserFormHandler;
 use \BiffBangPow\MessageBoard\Services\SessionService;
 use \BiffBangPow\MessageBoard\Services\PasswordEncryptionService;
 use \BiffBangPow\MessageBoard\Model\Report;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
@@ -45,6 +49,7 @@ $twig->addGlobal('session', $_SESSION);
 $sessionService = new SessionService();
 $passwordEncryptionService = new PasswordEncryptionService();
 $sessionService->init();
+$serializer = new Serializer([new JsonSerializableNormalizer()], [new JsonEncoder()]);
 
 //FormHandlers
 $threadFormHandler = new ThreadFormHandler($entityManager, $sessionService, $userRepository);
@@ -53,7 +58,8 @@ $userFormHandler = new UserFormHandler($entityManager, $userRepository, $session
 
 //Application Controllers
 $mainController = new MainController($twig, $threadRepository, $commentRepository, $userRepository, $sessionService);
-$threadController = new ThreadController($twig, $threadRepository, $threadFormHandler, $sessionService);
+$threadController = new ThreadController($twig, $threadRepository, $threadFormHandler);
+$jsonController = new JsonController($threadRepository, $userRepository, $serializer, $entityManager);
 $commentController = new CommentController($twig, $commentRepository,$reportRepository ,$commentFormHandler, $sessionService);
 $userController = new UserController($twig, $userRepository, $userFormHandler, $sessionService);
 
@@ -63,6 +69,7 @@ $router = new Router($application, $sessionService);
 $router
     ->routeMainController($mainController)
     ->routeThreadController($threadController)
+    ->routeJSONController($jsonController)
     ->routeCommentController($commentController)
     ->routeUserController($userController)
 ;

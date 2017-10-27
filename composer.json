@@ -3,7 +3,8 @@
     "require": {
         "silex/silex": "^2.2",
         "twig/twig": "^2.4",
-        "doctrine/orm": "^2.5"
+        "doctrine/orm": "^2.5",
+        "symfony/serializer": "^3.3"
     },
     "autoload": {
         "psr-4": {

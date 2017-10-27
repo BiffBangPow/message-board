@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @Entity
  * @Table(name="threads")
  */
-class Thread
+class Thread implements \JsonSerializable
 {
 
     /**
@@ -32,8 +32,8 @@ class Thread
     private $content;
 
     /**
-     * @OneToMany(targetEntity="Comment", mappedBy="thread", fetch="EXTRA_LAZY")
-     * var ArrayCollection
+     * @OneToMany(targetEntity="Comment", mappedBy="thread", fetch="EXTRA_LAZY", cascade={"remove"})
+     * @var ArrayCollection
      */
     private $comments;
 
@@ -46,6 +46,7 @@ class Thread
     /**
      * @ManyToOne(targetEntity="User", inversedBy="threads")
      * @JoinColumn(name="user_id", referencedColumnName="id")
+     * @var User
      */
     private $user;
 
@@ -121,7 +122,7 @@ class Thread
     }
 
     /**
-     * @return mixed
+     * @return User
      */
     public function getUser()
     {
@@ -150,5 +151,20 @@ class Thread
     public function setComments($comments)
     {
         $this->comments = $comments;
+    }
+
+    /**
+     * @return array
+     * Todo: dateTime doesn't work properly
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'user_id' => $this->user->getId(),
+            'title' => $this->title,
+            'content' => $this->content,
+            'postedAt' => $this->postedAt->format('c')
+        ];
     }
 }

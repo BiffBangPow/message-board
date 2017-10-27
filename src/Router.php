@@ -3,6 +3,7 @@
 namespace BiffBangPow\MessageBoard;
 
 use BiffBangPow\MessageBoard\Controller\CommentController;
+use BiffBangPow\MessageBoard\Controller\JsonController;
 use BiffBangPow\MessageBoard\Controller\MainController;
 use BiffBangPow\MessageBoard\Controller\ThreadController;
 use BiffBangPow\MessageBoard\Controller\UserController;
@@ -22,6 +23,7 @@ class Router
      * @var SessionService
      */
     private $sessionService;
+
 
     /**
      * ApplicationConfigurator constructor.
@@ -45,7 +47,7 @@ class Router
         $this->application->get('/', function (Request $request) use ($mainController) {
             return $mainController->indexAction($request);
         })
-        ->before($this->checkSessionMissing());
+            ->before($this->checkSessionMissing());
 
         $this->application->get('/thread/{id}', function (Request $request, int $id) use ($mainController) {
             return $mainController->threadAction($request, $id);
@@ -77,6 +79,8 @@ class Router
     /**
      * @param ThreadController $threadController
      * @return $this
+     * Todo: GET /api/threads - Retrieve full list of threads
+     * Todo: update doesnt exist, change 'post' with something that works?
      */
     public function routeThreadController(ThreadController $threadController)
     {
@@ -87,6 +91,38 @@ class Router
         $this->application->post('/threads/new', function (Request $request) use ($threadController) {
             return $threadController->createNewThreadAction($request);
         })->before($this->checkSessionMissing());
+
+        return $this;
+    }
+
+    /**
+     * @param JsonController $jsonController
+     * @return $this
+     */
+    public function routeJSONController(JsonController $jsonController)
+    {
+        $this->application->get('/api/thread/{id}', function (Request $request, int $id) use ($jsonController) {
+            return $jsonController->apiViewAction($id);
+        })->assert("_format", "json")
+            ->assert("id", "\d+");
+
+        $this->application->get('/api/thread', function (Request $request) use ($jsonController) {
+            return $jsonController->apiViewActionList($request);
+        })->assert("_format", "json")
+            ->assert("id", "\d+");
+
+        $this->application->post('/api/thread', function (Request $request) use ($jsonController) {
+            return $jsonController->apiCreateAction($request);
+        });
+
+        $this->application->post('/api/thread', function (Request $request) use ($jsonController) {
+            return $jsonController->apiUpdateAction($request);
+        });
+
+        $this->application->delete('/api/thread/{id}', function (Request $request, int $id) use ($jsonController) {
+            return $jsonController->apiDeleteAction($id);
+        })->assert("_format", "json")
+            ->assert("id", "\d+");
 
         return $this;
     }
